@@ -1,0 +1,7 @@
+target/
+.vscode/
+*.class
+users.db
+*.jks
+*.p12
+logs/
