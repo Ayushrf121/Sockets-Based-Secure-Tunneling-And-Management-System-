@@ -5,3 +5,4 @@ users.db
 *.jks
 *.p12
 logs/
+certs/
