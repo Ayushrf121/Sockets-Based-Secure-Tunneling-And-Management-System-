@@ -1,5 +1,6 @@
 package com.rhythmcoders.tunnel.proxy;
 
+import org.mindrot.jbcrypt.BCrypt;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Collection;
 import java.util.Map;
@@ -29,8 +30,9 @@ public class SessionRegistry {
         return true;
     }
 
-    public static boolean verifyUser(String username, String password) {
-        // For simplicity in PBL demonstration
-        return registeredUsers.containsKey(username);
+    public static boolean verifyUserCredentials(String username, String password) {
+        String storedHash = registeredUsers.get(username);
+        if (storedHash == null) return false;
+        return BCrypt.checkpw(password, storedHash);
     }
 }
