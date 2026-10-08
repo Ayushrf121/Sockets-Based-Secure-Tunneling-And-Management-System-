@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Abstraction over where users live. Phase 1: file. Phase 2: database.
+ * Abstraction over where users live. Phase 1: file. Phase 2 or 3: database.
  */
 public interface UserStore {
     Optional<User> find(String username);

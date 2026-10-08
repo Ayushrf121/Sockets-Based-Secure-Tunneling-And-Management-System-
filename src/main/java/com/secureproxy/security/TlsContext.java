@@ -12,11 +12,14 @@ import java.security.KeyStore;
 
 /**
  * Builds TLS 1.3 socket factories from PKCS12 files.
+ *
  * Server: uses its keystore (private key + certificate).
- * Client: trusts ONLY the certificates in its truststore (certificate pinning).
+ * Client: trusts ONLY the certificates in its truststore (certificate pinning),
+ *         so a different server or a man-in-the-middle is rejected at handshake.
  */
 public final class TlsContext {
 
+    public static final int DEFAULT_PORT = 5443;
     public static final String[] PROTOCOLS = {"TLSv1.3"};
 
     private TlsContext() {}
