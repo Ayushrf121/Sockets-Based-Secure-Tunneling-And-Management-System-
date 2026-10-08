@@ -4,6 +4,9 @@ import com.secureproxy.dto.ClientRequest;
 import com.secureproxy.dto.UserResponse;
 import com.secureproxy.model.User;
 import com.secureproxy.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +24,20 @@ public class ClientController {
     public ResponseEntity<UserResponse> requestAccess(
             @RequestBody ClientRequest request) {
 
-        User user = userService.registerClient(request);
+        User user =
+                userService.registerClient(request);
+
+        return ResponseEntity.ok(
+                new UserResponse(user)
+        );
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<UserResponse> status(
+            HttpServletRequest request) {
+
+        User user =
+                (User) request.getAttribute("user");
 
         return ResponseEntity.ok(
                 new UserResponse(user)

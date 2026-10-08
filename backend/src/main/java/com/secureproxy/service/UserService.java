@@ -14,10 +14,32 @@ public class UserService {
 
     public java.util.List<User> getPendingUsers() {
 
-        return userRepository.findAll()
-                .stream()
-                .filter(user -> user.getStatus().equals("PENDING"))
-                .toList();
+        return userRepository.findByRoleAndStatus(
+                "CLIENT",
+                "PENDING");
+    }
+
+    public User removeUser(Long id) {
+
+        User user = getUserById(id);
+
+        user.setStatus("REMOVED");
+        user.setRemovedAt(
+                java.time.LocalDateTime.now());
+
+        return userRepository.save(user);
+    }
+
+    public java.util.List<User> getAllClients() {
+
+        return userRepository.findByRole("CLIENT");
+    }
+
+    public User getUserByName(String name) {
+
+        return userRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "User not found"));
     }
 
     public UserService(

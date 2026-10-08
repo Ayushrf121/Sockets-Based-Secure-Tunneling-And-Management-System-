@@ -37,8 +37,7 @@ public class AdminController {
         User user = userService.approveUser(id);
 
         return ResponseEntity.ok(
-                new UserResponse(user)
-        );
+                new UserResponse(user));
     }
 
     @PostMapping("/clients/{id}/reject")
@@ -48,7 +47,36 @@ public class AdminController {
         User user = userService.rejectUser(id);
 
         return ResponseEntity.ok(
-                new UserResponse(user)
-        );
+                new UserResponse(user));
+    }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<?> dashboard() {
+
+        var clients = userService.getAllClients();
+
+        long active = clients.stream()
+                .filter(u -> u.getStatus().equals("ACTIVE"))
+                .count();
+
+        long pending = clients.stream()
+                .filter(u -> u.getStatus().equals("PENDING"))
+                .count();
+
+        return ResponseEntity.ok(
+                java.util.Map.of(
+                        "totalClients", clients.size(),
+                        "activeClients", active,
+                        "pendingClients", pending));
+    }
+
+    @DeleteMapping("/clients/{id}")
+    public ResponseEntity<UserResponse> removeClient(
+            @PathVariable Long id) {
+
+        User user = userService.removeUser(id);
+
+        return ResponseEntity.ok(
+                new UserResponse(user));
     }
 }
